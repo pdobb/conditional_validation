@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = ConditionalValidation::VERSION
   s.authors     = ["Paul Dobbins"]
   s.email       = ["pdobbins@gmail.com"]
-  s.homepage    = "https://github.com/pdobb/validation_accessor"
+  s.homepage    = "https://github.com/pdobb/conditional_validation"
   s.summary     = "Add conditional validation methods to a model."
   s.description = "Validation Accessor allows controllers to communicate with models about whether or not certain validations should be run."
 

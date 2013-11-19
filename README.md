@@ -18,7 +18,7 @@ Tested with:
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "validation_accessor"
+gem "conditional_validation"
 ```
 
 And then execute:
@@ -62,9 +62,9 @@ end
 
 # app/controllers/user_controller.rb
 def update
-  current_user.enable_address_attributes_validation
-  if current_user.save # Enable conditional validation on address attributes
-    current_user.disable_address_attributes_validation # Not necessarily needed, but disable conditional validation on address attributes
+  current_user.enable_address_attributes_validation # Enable conditional validation on address attributes
+  if current_user.save
+    current_user.disable_address_attributes_validation # Not necessarily needed, but disables conditional validation on address attributes
     # ...
   end
 end
