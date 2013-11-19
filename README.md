@@ -1,5 +1,7 @@
 # Conditional Validation
 
+[![Gem Version](https://badge.fury.io/rb/conditional_validation.png)](http://badge.fury.io/rb/conditional_validation)
+
 Conditional Validation allows controllers to communicate with models about
 whether or not certain validations should be run. This is great for multi-page
 wizards and context-dependent validations.
