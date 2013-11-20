@@ -6,7 +6,7 @@ module ConditionalValidation
       # Macro method for defining an attr_accessor and various
       # enable/disable/predicate methods that wrap the attr_acessor for
       # determining when to run a set of validation on an ActiveRecord model.
-      # @param args [*section_names] the section names for which to define
+      # @param args [*accessors] the section names for which to define
       #   validation accessors for
       # @example
       #   class User
@@ -17,22 +17,22 @@ module ConditionalValidation
       #   #      enable_address_attributes_validation
       #   #      disable_address_attributes_validation
       #   #      validate_on_address_attributes?
-      def validation_accessor(*section_names)
-        attr_accessor *(section_names.map { |section_name| "validate_on_#{section_name}_attributes" })
+      def validation_accessor(*accessors)
+        attr_accessor *accessors.map { |accessor| "_#{accessor}_validation_accessor" }
 
-        section_names.each do |section_name|
-          define_method "enable_#{section_name}_validation" do
-            self.send("validate_on_#{section_name}_attributes=", true)
+        accessors.each do |accessor|
+          define_method "enable_#{accessor}_validation" do
+            self.send("_#{accessor}_validation_accessor=", true)
             self
           end
 
-          define_method "disable_#{section_name}_validation" do
-            self.send("validate_on_#{section_name}_attributes=", false)
+          define_method "disable_#{accessor}_validation" do
+            self.send("_#{accessor}_validation_accessor=", false)
             self
           end
 
-          define_method "validate_on_#{section_name}?" do
-            !!self.send("validate_on_#{section_name}_attributes")
+          define_method "validate_on_#{accessor}?" do
+            !!self.send("_#{accessor}_validation_accessor")
           end
         end
       end
