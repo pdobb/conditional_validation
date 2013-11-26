@@ -10,8 +10,10 @@ wizards and context-dependent validations.
 
 Tested with:
 
-* Ruby: MRI 2.0.0
-* Rails: 4.0.1
+* Ruby: MRI 1.9.3
+* Ruby: MRI 2.0.0 +
+* Rails: 3.0.0 +
+* Rails: 4.0.0 +
 
 ## Installation
 

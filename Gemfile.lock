@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    conditional_validation (0.0.4)
+    conditional_validation (0.0.5)
       rails (>= 3.0.0)
 
 GEM
@@ -34,16 +34,8 @@ GEM
     ansi (1.4.3)
     arel (4.0.1)
     atomic (1.1.14)
-    binding_of_caller (0.7.2)
-      debug_inspector (>= 0.0.1)
     builder (3.1.4)
-    byebug (2.3.1)
-      columnize (~> 0.3.6)
-      debugger-linecache (~> 1.2.0)
     coderay (1.1.0)
-    columnize (0.3.6)
-    debug_inspector (0.0.2)
-    debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     hike (1.2.3)
@@ -67,12 +59,6 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pry-byebug (1.2.0)
-      byebug (~> 2.2)
-      pry (~> 0.9.12)
-    pry-stack_explorer (0.4.9.1)
-      binding_of_caller (>= 0.7)
-      pry (>= 0.9.11)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -126,12 +112,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug
   conditional_validation!
   minitest-ansi
   minitest-rails
   pry
-  pry-byebug
-  pry-stack_explorer
   sqlite3
   wrong
