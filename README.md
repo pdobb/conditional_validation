@@ -36,16 +36,16 @@ First, define a validation accessor:
 ```ruby
 # app/models/some_model.rb
 class SomeModel
-  validation_accessor :some_grouping_name
+  validation_accessor :<grouping_name>
 end
 ```
 
 Then, this model will receive the following methods for conditional validation:
 
 ```ruby
-enable_some_grouping_name_validation # Enables conditional validation
-disable_some_grouping_name_validation # Disables conditional validation
-validate_on_some_grouping_name? # Check if conditional validation is enabled
+enable_<grouping_name>_validation # Enables conditional validation
+disable_<grouping_name>_validation # Disables conditional validation
+validate_on_<grouping_name>? # Check if conditional validation is enabled
 ```
 
 <b>A "Real World" Example</b>
