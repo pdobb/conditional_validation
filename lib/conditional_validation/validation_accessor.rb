@@ -6,8 +6,10 @@ module ConditionalValidation
       # Macro method for defining an attr_accessor and various
       # enable/disable/predicate methods that wrap the attr_acessor for
       # determining when to run a set of validation on an ActiveRecord model.
+      #
       # @param args [*accessors] the section names for which to define
       #   validation accessors for
+      #
       # @example
       #   class User
       #     validation_accessor :address_attributes

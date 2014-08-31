@@ -1,24 +1,19 @@
 require 'test_helper'
 
 describe ConditionalValidation do
-  describe "validation_accessor macro" do
-    it "is available to ActiveRecord models" do
-      class SomeClass < ActiveRecord::Base
-      end
-      assert { SomeClass.respond_to?(:validation_accessor) }
-    end
-  end
+  describe "#validation_accessor" do
+    subject { User.new }
 
-  describe "when a model is using the validation_accessor macro" do
-    before do
-      @user = User.new # Defined in test/dummy app
+    it "is available to ActiveRecord models by default" do
+      class SomeClass < ActiveRecord::Base; end
+      SomeClass.must_respond_to(:validation_accessor)
     end
 
     it "defines validation_accessor methods" do
       [:enable_address_attributes_validation,
         :disable_address_attributes_validation,
         :validate_on_address_attributes?].each do |method|
-        assert { @user.respond_to?(method) }
+        subject.must_respond_to(method)
       end
     end
 
@@ -27,30 +22,30 @@ describe ConditionalValidation do
         [:"enable_#{accessor_name}_validation",
           :"disable_#{accessor_name}_validation",
           :"validate_on_#{accessor_name}?"].each do |method|
-          deny { @user.respond_to?(method) }
+          subject.wont_respond_to(method)
         end
       end
     end
 
-    it "allows method chaining when using the getter/setter methods" do
-      assert { @user.enable_address_attributes_validation == @user }
-      assert { @user.disable_address_attributes_validation == @user }
-    end
+    describe "validation_accessor methods" do
+      it "allows method chaining" do
+        subject.enable_address_attributes_validation.must_equal subject
+        subject.disable_address_attributes_validation.must_equal subject
+      end
 
-    describe "conditional validation" do
       it "requests validation when enabled" do
-        deny { @user.validate_on_address_attributes? }
+        refute subject.validate_on_address_attributes?
 
-        @user.enable_address_attributes_validation
-        assert { @user.validate_on_address_attributes? }
+        subject.enable_address_attributes_validation
+        assert subject.validate_on_address_attributes?
       end
 
       it "does not request validation when disabled again" do
-        @user.enable_address_attributes_validation
-        assert { @user.validate_on_address_attributes? }
+        subject.enable_address_attributes_validation
+        assert subject.validate_on_address_attributes?
 
-        @user.disable_address_attributes_validation
-        deny { @user.validate_on_address_attributes? }
+        subject.disable_address_attributes_validation
+        refute subject.validate_on_address_attributes?
       end
     end
   end

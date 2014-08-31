@@ -12,15 +12,16 @@ Tested with:
 
 * Ruby: MRI 1.9.3
 * Ruby: MRI 2.0.0 +
-* Rails: 3.0.0 +
-* Rails: 4.0.0 +
+* Rails: 3+
+* Rails: 4+
+
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "conditional_validation"
+gem 'conditional_validation'
 ```
 
 And then execute:
@@ -28,6 +29,7 @@ And then execute:
 ```ruby
 bundle
 ```
+
 
 ## Usage
 
@@ -40,7 +42,8 @@ class SomeModel
 end
 ```
 
-Then, this model will receive the following methods for conditional validation:
+Then, the following methods will be defined on SomeModel for conditional
+validation:
 
 ```ruby
 enable_<grouping_name>_validation # Enables conditional validation
@@ -48,7 +51,8 @@ disable_<grouping_name>_validation # Disables conditional validation
 validate_on_<grouping_name>? # Check if conditional validation is enabled
 ```
 
-<b>A "Real World" Example</b>
+
+### A "Real World" Example
 
 ```ruby
 # app/models/user.rb
@@ -72,7 +76,7 @@ def update
 end
 ```
 
-<b>Method Chaining</b>
+### Method Chaining
 
 The enable and disable methods allow for method chaining so that multiple
 validation accessors may be enabled/disabled at once:
@@ -82,6 +86,7 @@ if current_user.enable_address_attributes_validation.enable_some_other_validatio
   # ...
 end
 ```
+
 
 ## Author
 
