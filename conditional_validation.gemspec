@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ["pdobbins@gmail.com"]
   s.homepage    = "https://github.com/pdobb/conditional_validation"
   s.summary     = "Add conditional validation flags to a model."
-  s.description = "Conditional Validation allows validation flags to be enabled to determine when certain validations should be run on a model."
+  s.description = "Conditional Validation allows validation flags to be defined to determine when certain validations should be run on a model."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
