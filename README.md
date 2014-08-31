@@ -2,9 +2,13 @@
 
 [![Gem Version](https://badge.fury.io/rb/conditional_validation.png)](http://badge.fury.io/rb/conditional_validation)
 
-Conditional Validation allows controllers to communicate with models about
-whether or not certain validations should be run. This is great for multi-page
-wizards and context-dependent validations.
+Conditional Validation allows validation flags to be enabled to determine when
+certain validations should be run on a model. The idea being that, while models
+tend to have a set of core validations that should always be run, some
+validations may be specific to a certain context or state of the object. Typical
+use-case, then, is to flag a model's non-core validations to run from specific
+controller actions, while they default to not run from all others.
+
 
 ## Compatibility
 
@@ -33,12 +37,12 @@ bundle
 
 ## Usage
 
-First, define a validation accessor:
+First, define a validation flag:
 
 ```ruby
 # app/models/some_model.rb
 class SomeModel
-  validation_accessor :<grouping_name>
+  validation_flag :<flag_name>
 end
 ```
 
@@ -46,9 +50,9 @@ Then, the following methods will be defined on SomeModel for conditional
 validation:
 
 ```ruby
-enable_<grouping_name>_validation # Enables conditional validation
-disable_<grouping_name>_validation # Disables conditional validation
-validate_on_<grouping_name>? # Check if conditional validation is enabled
+enable_<flag_name>_validation # Enables conditional validation
+disable_<flag_name>_validation # Disables conditional validation
+validate_on_<flag_name>? # Check if conditional validation is enabled
 ```
 
 
@@ -57,7 +61,8 @@ validate_on_<grouping_name>? # Check if conditional validation is enabled
 ```ruby
 # app/models/user.rb
 User < ActiveRecord::Base
-  validation_accessor :address_attributes # Initialize conditional validation on address attributes
+  # Initialize conditional validation on address attributes
+  validation_flag :address_attributes
 
   with_options if: :validate_on_address_attributes? do |obj|
     obj.validates :street, presence: true
@@ -68,9 +73,11 @@ end
 
 # app/controllers/user_controller.rb
 def update
-  current_user.enable_address_attributes_validation # Enable conditional validation on address attributes
+  # Enable conditional validation on address attributes
+  current_user.enable_address_attributes_validation
   if current_user.save
-    current_user.disable_address_attributes_validation # Not necessarily needed, but disables conditional validation on address attributes
+    # Not typically needed, but disables conditional validation on address attributes
+    current_user.disable_address_attributes_validation
     # ...
   end
 end
@@ -79,7 +86,7 @@ end
 ### Method Chaining
 
 The enable and disable methods allow for method chaining so that multiple
-validation accessors may be enabled/disabled at once:
+validation flags may be enabled/disabled at once:
 
 ```ruby
 if current_user.enable_address_attributes_validation.enable_some_other_validation.save

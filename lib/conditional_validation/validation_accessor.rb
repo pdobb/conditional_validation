@@ -20,24 +20,30 @@ module ConditionalValidation
       #   #      disable_address_attributes_validation
       #   #      validate_on_address_attributes?
       def validation_accessor(*accessors)
-        attr_accessor *accessors.map { |accessor| "_#{accessor}_validation_accessor" }
+        attr_accessor *accessors.map { |accessor|
+          "_#{accessor}_validation_accessor"
+        }
 
         accessors.each do |accessor|
-          define_method "enable_#{accessor}_validation" do
-            self.send("_#{accessor}_validation_accessor=", true)
-            self
-          end
+          class_eval <<-METHODS, __FILE__, __LINE__ + 1
+            def enable_#{accessor}_validation
+              self._#{accessor}_validation_accessor = true
+              self
+            end
 
-          define_method "disable_#{accessor}_validation" do
-            self.send("_#{accessor}_validation_accessor=", false)
-            self
-          end
+            def disable_#{accessor}_validation
+              self._#{accessor}_validation_accessor = false
+              self
+            end
 
-          define_method "validate_on_#{accessor}?" do
-            !!self.send("_#{accessor}_validation_accessor")
-          end
+            def validate_on_#{accessor}?
+              !!_#{accessor}_validation_accessor
+            end
+          METHODS
         end
       end
+      deprecate validation_accessor: :validation_flag,
+                deprecator: ActiveSupport::Deprecation.new('1.0', 'Conditional Validation')
     end
   end
 end

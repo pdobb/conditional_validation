@@ -5,6 +5,7 @@ require "rails/test_help"
 require "minitest/rails"
 
 Rails.backtrace_cleaner.remove_silencers!
+ActiveSupport::Deprecation.silenced = true
 
 # Load support files
 Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }

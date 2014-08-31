@@ -2,11 +2,7 @@
 # http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
-  address: MyString
-  city: MyString
+  name: User1
 
 two:
-  name: MyString
-  address: MyString
-  city: MyString
+  name: User2
