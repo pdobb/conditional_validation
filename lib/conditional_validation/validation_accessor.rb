@@ -42,8 +42,10 @@ module ConditionalValidation
           METHODS
         end
       end
-      deprecate validation_accessor: :validation_flag,
-                deprecator: ActiveSupport::Deprecation.new('1.0', 'Conditional Validation')
+      if ActiveSupport::Deprecation.respond_to?(:new)
+        deprecate validation_accessor: :validation_flag,
+                  deprecator: ActiveSupport::Deprecation.new('1.0', 'Conditional Validation')
+      end
     end
   end
 end
