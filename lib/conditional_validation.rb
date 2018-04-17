@@ -1,5 +1,5 @@
-require "conditional_validation/validation_flag"
-require "conditional_validation/validation_accessor"
-
 module ConditionalValidation
 end
+
+require "conditional_validation/version"
+require "conditional_validation/validation_flag"

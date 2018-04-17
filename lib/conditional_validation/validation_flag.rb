@@ -1,47 +1,43 @@
 module ConditionalValidation
+  # ConditionalValidation::ValidationFlag is extended by model classes to add
+  # the `validation_flag` macro.
   module ValidationFlag
-    extend ActiveSupport::Concern
+    # Macro method for defining attr_accessor methods, and the associated
+    # enable/disable/predicate methods that wrap the attr_acessor methods, for
+    # determining when to run validation sets on a model.
+    #
+    # @param flags [*Array<String>] the validation flag names
+    #
+    # @example
+    #   class User
+    #     validation_flag :address_attributes
+    #   end
+    def validation_flag(*flags)
+      raise ArgumentError, "flags can't be empty" if flags.empty?
 
-    module ClassMethods
-      # Macro method for defining an attr_accessor and
-      # enable/disable/predicate methods that wrap the attr_acessor for
-      # determining when to run a set of validation on an ActiveRecord model.
-      #
-      # @param [*Array] flags the section names for which to define
-      #   validation flags for
-      #
-      # @example
-      #   class User
-      #     validation_flag :address_attributes
-      #   end
-      #
-      #   # => Defines the following methods on instances of the User class:
-      #   #      enable_address_attributes_validation
-      #   #      disable_address_attributes_validation
-      #   #      validate_on_address_attributes?
-      def validation_flag(*flags)
-        attr_accessor *flags.map { |flag| "_#{flag}_validation_flag" }
+      accessor_method_names = flags.map { |flag| "_#{flag}_validation_flag" }
+      attr_accessor(*accessor_method_names)
 
-        flags.each do |flag|
-          class_eval <<-METHODS, __FILE__, __LINE__ + 1
-            def enable_#{flag}_validation
-              self._#{flag}_validation_flag = true
-              self
-            end
+      flags.each do |flag|
+        # def enable_address_attributes_validation
+        # def disable_address_attributes_validation
+        # def validate_on_address_attributes?
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def enable_#{flag}_validation
+            self._#{flag}_validation_flag = true
+            self
+          end
 
-            def disable_#{flag}_validation
-              self._#{flag}_validation_flag = false
-              self
-            end
+          def disable_#{flag}_validation
+            self._#{flag}_validation_flag = false
+            self
+          end
 
-            def validate_on_#{flag}?
-              !!_#{flag}_validation_flag
-            end
-          METHODS
-        end
+          def validate_on_#{flag}?
+            !!_#{flag}_validation_flag
+          end
+        RUBY
       end
     end
   end
 end
-
-ActiveRecord::Base.send(:include, ConditionalValidation::ValidationFlag)
