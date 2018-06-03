@@ -19,20 +19,20 @@ module ConditionalValidation
       attr_accessor(*accessor_method_names)
 
       flags.each do |flag|
-        # def enable_address_attributes_validation
-        # def disable_address_attributes_validation
-        # def validate_on_address_attributes?
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          # def enable_address_attributes_validation
           def enable_#{flag}_validation
             self._#{flag}_validation_flag = true
             self
           end
 
+          # def disable_address_attributes_validation
           def disable_#{flag}_validation
             self._#{flag}_validation_flag = false
             self
           end
 
+          # def validate_on_address_attributes?
           def validate_on_#{flag}?
             !!_#{flag}_validation_flag
           end
